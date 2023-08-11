@@ -12,3 +12,6 @@
 
 # DB Folder
 db/
+
+# Env files
+.env
