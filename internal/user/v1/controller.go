@@ -2,7 +2,7 @@ package user_v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/thiago-s-silva/ms-go-ddd-rest-api/pkg"
+	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
 var (

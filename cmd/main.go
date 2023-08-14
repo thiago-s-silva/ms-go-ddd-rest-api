@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/thiago-s-silva/ms-go-ddd-rest-api/config"
-	"github.com/thiago-s-silva/ms-go-ddd-rest-api/internal/api"
-	"github.com/thiago-s-silva/ms-go-ddd-rest-api/pkg"
+	"github.com/thiago-s-silva/ms-go-task-management-api/config"
+	"github.com/thiago-s-silva/ms-go-task-management-api/internal/api"
+	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
 func main() {
