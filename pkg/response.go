@@ -37,6 +37,10 @@ func OnNotFound(ctx *gin.Context, message string) {
 	handleResponse(ctx, http.StatusNotFound, message)
 }
 
-func OnSuccess(ctx *gin.Context, message string, data interface{}) {
+func OnSuccessWithData(ctx *gin.Context, message string, data interface{}) {
 	handleResponseWithData(ctx, http.StatusOK, message, data)
+}
+
+func OnSuccess(ctx *gin.Context, message string) {
+	handleResponse(ctx, http.StatusOK, message)
 }
