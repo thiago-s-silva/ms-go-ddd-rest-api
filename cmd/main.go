@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/thiago-s-silva/ms-go-ddd-rest-api/config"
+	"github.com/thiago-s-silva/ms-go-ddd-rest-api/internal/api"
 	"github.com/thiago-s-silva/ms-go-ddd-rest-api/pkg"
 )
 
@@ -19,6 +20,9 @@ func main() {
 		logger.Errorf("error when tried to load config package: %v", err)
 		panic(err)
 	}
+
+	// init API
+	api.Load(server, cfg)
 
 	// initialize Server
 	server.Run(cfg.SERVER_HOST)

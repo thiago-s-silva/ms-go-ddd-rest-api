@@ -7,7 +7,9 @@ import (
 )
 
 type Config struct {
-	SERVER_HOST string
+	SERVER_HOST      string
+	API_V1_BASE_PATH string
+	API_V2_BASE_PATH string
 }
 
 func Load() (*Config, error) {
@@ -21,7 +23,9 @@ func Load() (*Config, error) {
 	serverPort := env.Get("SERVER_PORT", "8080")
 
 	c := Config{
-		SERVER_HOST: fmt.Sprintf("%s:%s", serverIp, serverPort),
+		SERVER_HOST:      fmt.Sprintf("%s:%s", serverIp, serverPort),
+		API_V1_BASE_PATH: "/api/v1",
+		API_V2_BASE_PATH: "/api/v2",
 	}
 
 	return &c, nil
