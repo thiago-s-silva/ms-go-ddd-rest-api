@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/thiago-s-silva/ms-go-task-management-api/config"
-	"github.com/thiago-s-silva/ms-go-task-management-api/internal/api"
+	"github.com/thiago-s-silva/ms-go-task-management-api/internal/app"
 	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
@@ -21,8 +21,12 @@ func main() {
 		panic(err)
 	}
 
-	// init API
-	api.Load(server, cfg)
+	// init App
+	app := app.Dependencies{
+		Server: server,
+		Config: cfg,
+	}
+	app.Load()
 
 	// initialize Server
 	server.Run(cfg.SERVER_HOST)

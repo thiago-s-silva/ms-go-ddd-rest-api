@@ -13,11 +13,10 @@ func handleResponse(ctx *gin.Context, code int, message string) {
 	})
 }
 
-func handleResponseWithData(ctx *gin.Context, code int, message string, data interface{}) {
+func handleResponseWithData(ctx *gin.Context, code int, data interface{}) {
 	ctx.Header("Content-type", "application/json")
 	ctx.JSON(code, gin.H{
-		"message": message,
-		"data":    data,
+		"data": data,
 	})
 }
 
@@ -25,8 +24,8 @@ func OnBadRequest(ctx *gin.Context, message string) {
 	handleResponse(ctx, http.StatusBadRequest, message)
 }
 
-func OnCreated(ctx *gin.Context, message string, data interface{}) {
-	handleResponseWithData(ctx, http.StatusCreated, message, data)
+func OnCreated(ctx *gin.Context, data interface{}) {
+	handleResponseWithData(ctx, http.StatusCreated, data)
 }
 
 func OnError(ctx *gin.Context, message string) {
@@ -37,8 +36,8 @@ func OnNotFound(ctx *gin.Context, message string) {
 	handleResponse(ctx, http.StatusNotFound, message)
 }
 
-func OnSuccessWithData(ctx *gin.Context, message string, data interface{}) {
-	handleResponseWithData(ctx, http.StatusOK, message, data)
+func OnSuccessWithData(ctx *gin.Context, data interface{}) {
+	handleResponseWithData(ctx, http.StatusOK, data)
 }
 
 func OnSuccess(ctx *gin.Context, message string) {
