@@ -12,12 +12,15 @@ type IUserService interface {
 
 type UserService struct {
 	context *gin.Context
+	log     *pkg.Logger
 }
 
 func (u *UserService) Create(payload *UserRequestPayload) {
+	u.log.Info("created new user")
 	pkg.OnSuccessWithData(u.context, payload)
 }
 
 func (u *UserService) GetOne(id string) {
+	u.log.Info("get one user")
 	pkg.OnSuccessWithData(u.context, id)
 }

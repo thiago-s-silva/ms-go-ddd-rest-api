@@ -6,33 +6,58 @@ import (
 )
 
 func GetOneHandler(ctx *gin.Context) {
-	var urlParams UrlParams
-	bindUriParams(ctx, &urlParams)
+	// init a new logger instance
+	logger := pkg.NewLogger("GetOne User")
 
-	s := UserService{context: ctx}
+	// bind URL Params based on struct
+	var urlParams UrlParams
+	if err := bindUriParams(ctx, &urlParams); err != nil {
+		logger.Error(err)
+		pkg.OnBadRequest(ctx, err.Error())
+		return
+	}
+
+	// init UserService injecting needed dependencies
+	s := UserService{context: ctx, log: logger}
+	// call service method to get one user
 	s.GetOne(urlParams.ID)
 }
 
 func CreateHandler(ctx *gin.Context) {
+	// init new logger instance
+	logger := pkg.NewLogger("Create One User")
+
+	// bind request json payload based on struct
 	var payload UserRequestPayload
 	bindPayload(ctx, &payload)
 
+	// validate payload based on dto
 	if err := payload.Validate(); err != nil {
+		logger.Error(err.Error())
 		pkg.OnBadRequest(ctx, err.Error())
+		return
 	}
 
-	s := UserService{context: ctx}
+	// init new UserService instance injecting needed dependencies
+	s := UserService{context: ctx, log: logger}
+	// call create method to create a new user
 	s.Create(&payload)
 }
 
-func bindUriParams(ctx *gin.Context, u *UrlParams) {
+func bindUriParams(ctx *gin.Context, u *UrlParams) error {
+	// try to bind the Request URI
 	if err := ctx.ShouldBindUri(&u); err != nil {
-		pkg.OnBadRequest(ctx, err.Error())
+		return err
 	}
+
+	return nil
 }
 
-func bindPayload(ctx *gin.Context, u *UserRequestPayload) {
+func bindPayload(ctx *gin.Context, u *UserRequestPayload) error {
+	// try to bind Request Payload
 	if err := ctx.ShouldBind(&u); err != nil {
-		pkg.OnBadRequest(ctx, "invalid body request")
+		return err
 	}
+
+	return nil
 }
