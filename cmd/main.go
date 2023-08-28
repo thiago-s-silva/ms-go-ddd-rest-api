@@ -23,11 +23,11 @@ func main() {
 
 	// init App
 	app := app.Dependencies{
-		Server: server,
-		Config: cfg,
+		Server:       server,
+		ServerConfig: &cfg.ServerConfig,
 	}
 	app.Load()
 
 	// initialize Server
-	server.Run(cfg.SERVER_HOST)
+	server.Run(cfg.ServerConfig.SERVER_HOST)
 }

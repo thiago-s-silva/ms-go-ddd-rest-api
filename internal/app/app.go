@@ -7,16 +7,16 @@ import (
 )
 
 type Dependencies struct {
-	Server *gin.Engine
-	Config *config.Config
+	Server       *gin.Engine
+	ServerConfig *config.ServerConfig
 }
 
 func (d *Dependencies) Load() {
-	v1 := d.Server.Group(d.Config.API_V1_BASE_PATH)
+	v1 := d.Server.Group(d.ServerConfig.API_V1_BASE_PATH)
 
 	// Load User Package
 	user.Load(&user.UserDependencies{
-		Config:       d.Config,
+		Config:       d.ServerConfig,
 		V1RouteGroup: v1,
 	})
 }

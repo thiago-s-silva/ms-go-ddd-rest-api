@@ -6,7 +6,7 @@ import (
 )
 
 type UserDependencies struct {
-	Config       *config.Config
+	Config       *config.ServerConfig
 	V1RouteGroup *gin.RouterGroup
 }
 

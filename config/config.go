@@ -7,6 +7,17 @@ import (
 )
 
 type Config struct {
+	DBConfig     DBConfig
+	ServerConfig ServerConfig
+}
+
+type DBConfig struct {
+	PG_DB       string
+	PG_USER     string
+	PG_PASSWORD string
+}
+
+type ServerConfig struct {
 	SERVER_HOST      string
 	API_V1_BASE_PATH string
 	API_V2_BASE_PATH string
@@ -23,9 +34,16 @@ func Load() (*Config, error) {
 	serverPort := env.Get("SERVER_PORT", "8080")
 
 	c := Config{
-		SERVER_HOST:      fmt.Sprintf("%s:%s", serverIp, serverPort),
-		API_V1_BASE_PATH: "/api/v1",
-		API_V2_BASE_PATH: "/api/v2",
+		ServerConfig: ServerConfig{
+			SERVER_HOST:      fmt.Sprintf("%s:%s", serverIp, serverPort),
+			API_V1_BASE_PATH: "/api/v1",
+			API_V2_BASE_PATH: "/api/v2",
+		},
+		DBConfig: DBConfig{
+			PG_DB:       env.Get("PG_DB", "postgres"),
+			PG_USER:     env.Get("PG_USER", "admin"),
+			PG_PASSWORD: env.Get("PG_PASSWORD", "admin"),
+		},
 	}
 
 	return &c, nil
