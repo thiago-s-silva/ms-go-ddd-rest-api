@@ -23,6 +23,14 @@ import (
 // 	s.GetOne(urlParams.ID)
 // }
 
+func GetAllHandler(ctx *gin.Context) {
+	// init new logger instance
+	logger := pkg.NewLogger("Get all users")
+
+	// cal User Service get all method
+	service.GetAll(ctx, logger)
+}
+
 func CreateHandler(ctx *gin.Context) {
 	// init new logger instance
 	logger := pkg.NewLogger("Create One User")

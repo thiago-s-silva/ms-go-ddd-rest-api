@@ -41,5 +41,10 @@ func Load(d *Dependencies) error {
 
 func registerV1Routes(v1 *gin.RouterGroup) {
 	// v1.GET("/user/:id", GetOneHandler)
+
+	// get all users
+	v1.GET("/users", GetAllHandler)
+
+	// create one user
 	v1.POST("/user", CreateHandler)
 }

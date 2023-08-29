@@ -41,14 +41,6 @@ func (u *UserRequestPayload) Validate() error {
 	return nil
 }
 
-type UserResponsePayload struct {
-	ID       string `json:"id"`
-	Name     string `json:"name"`
-	Role     string `json:"role"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 type UserErrorResponse struct {
 	Message string `json:"message"`
 }
@@ -62,5 +54,5 @@ type UserSuccessResponseWithData struct {
 }
 
 type UsersSuccessResponseWithData struct {
-	Data []UserResponsePayload `json:"data"`
+	Data []User `json:"data"`
 }

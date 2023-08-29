@@ -1,28 +1,19 @@
 package user
 
 import (
-	"github.com/google/uuid"
-
 	"github.com/gin-gonic/gin"
 	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
 type IUserService interface {
 	Create(payload *UserRequestPayload)
-	GetOne(id string)
+	GetAll()
 }
 
 type UserService struct{}
 
 func (u *UserService) Create(ctx *gin.Context, log *pkg.Logger, p *UserRequestPayload) {
-	newUserId, err := uuid.NewRandom()
-	if err != nil {
-		log.Errorf("failed to generate a new uuid: %s", err.Error())
-		pkg.OnError(ctx, err.Error())
-	}
-
 	user := User{
-		ID:       uint(newUserId.ID()),
 		Name:     p.Name,
 		Role:     p.Role,
 		Email:    p.Email,
@@ -36,4 +27,15 @@ func (u *UserService) Create(ctx *gin.Context, log *pkg.Logger, p *UserRequestPa
 
 	log.Info("created new user")
 	pkg.OnSuccessWithData(ctx, user)
+}
+
+func (u *UserService) GetAll(ctx *gin.Context, log *pkg.Logger) {
+	users, err := repository.GetAll()
+	if err != nil {
+		log.Error(err)
+		pkg.OnError(ctx, err.Error())
+	}
+
+	log.Debugf("found %d users from db", len(*users))
+	pkg.OnSuccessWithData(ctx, *users)
 }
