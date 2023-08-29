@@ -5,23 +5,21 @@ import (
 	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
-// func GetOneHandler(ctx *gin.Context) {
-// 	// init a new logger instance
-// 	logger := pkg.NewLogger("GetOne User")
+func GetOneHandler(ctx *gin.Context) {
+	// init a new logger instance
+	logger := pkg.NewLogger("Get user by id")
 
-// 	// bind URL Params based on struct
-// 	var urlParams UrlParams
-// 	if err := bindUriParams(ctx, &urlParams); err != nil {
-// 		logger.Error(err)
-// 		pkg.OnBadRequest(ctx, err.Error())
-// 		return
-// 	}
+	// bind URL Params based on struct
+	var urlParams UrlParams
+	if err := bindUriParams(ctx, &urlParams); err != nil {
+		logger.Error(err)
+		pkg.OnBadRequest(ctx, err.Error())
+		return
+	}
 
-// 	// init UserService injecting needed dependencies
-// 	s := UserService{context: ctx, log: logger}
-// 	// call service method to get one user
-// 	s.GetOne(urlParams.ID)
-// }
+	// call User Service get one method
+	service.GetOne(ctx, logger, urlParams.ID)
+}
 
 func GetAllHandler(ctx *gin.Context) {
 	// init new logger instance

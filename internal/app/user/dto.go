@@ -6,7 +6,7 @@ import (
 )
 
 type UrlParams struct {
-	ID string `uri:"id" binding:"required"`
+	ID int `uri:"id" binding:"required"`
 }
 
 type UserRequestPayload struct {

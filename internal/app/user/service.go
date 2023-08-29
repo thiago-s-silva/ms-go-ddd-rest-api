@@ -8,6 +8,7 @@ import (
 type IUserService interface {
 	Create(payload *UserRequestPayload)
 	GetAll()
+	GetOne(id int)
 }
 
 type UserService struct{}
@@ -38,4 +39,15 @@ func (u *UserService) GetAll(ctx *gin.Context, log *pkg.Logger) {
 
 	log.Debugf("found %d users from db", len(*users))
 	pkg.OnSuccessWithData(ctx, *users)
+}
+
+func (u *UserService) GetOne(ctx *gin.Context, log *pkg.Logger, id int) {
+	user, err := repository.GetOneById(id)
+	if err != nil {
+		log.Debugf("failed when tried to get user by id %d: %s", id, err.Error())
+		pkg.OnNotFound(ctx, err.Error())
+		return
+	}
+
+	pkg.OnSuccessWithData(ctx, &user)
 }
