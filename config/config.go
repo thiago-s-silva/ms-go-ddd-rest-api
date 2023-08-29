@@ -12,9 +12,10 @@ type Config struct {
 }
 
 type DBConfig struct {
-	PG_DB       string
-	PG_USER     string
-	PG_PASSWORD string
+	DB_NAME     string
+	DB_HOST     string
+	DB_USER     string
+	DB_PASSWORD string
 }
 
 type ServerConfig struct {
@@ -40,9 +41,10 @@ func Load() (*Config, error) {
 			API_V2_BASE_PATH: "/api/v2",
 		},
 		DBConfig: DBConfig{
-			PG_DB:       env.Get("PG_DB", "postgres"),
-			PG_USER:     env.Get("PG_USER", "admin"),
-			PG_PASSWORD: env.Get("PG_PASSWORD", "admin"),
+			DB_HOST:     env.Get("DB_HOST", "localhost"),
+			DB_NAME:     env.Get("DB_NAME", "postgres"),
+			DB_USER:     env.Get("DB_USER", "admin"),
+			DB_PASSWORD: env.Get("DB_PASSWORD", "admin"),
 		},
 	}
 
