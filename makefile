@@ -9,5 +9,5 @@ default: run
 run:
 	@go run cmd/main.go
 
-build:
-	@docker-compose -f build/docker-compose.yml up -d
+up:
+	@docker-compose up -d

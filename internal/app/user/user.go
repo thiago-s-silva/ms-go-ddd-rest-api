@@ -6,21 +6,40 @@ import (
 	"gorm.io/gorm"
 )
 
+var (
+	repository *UserRepository
+	db         *gorm.DB
+	service    *UserService
+)
+
 type Dependencies struct {
-	Config       *config.ServerConfig
+	Config       *config.Config
 	V1RouteGroup *gin.RouterGroup
 	Db           *gorm.DB
 }
 
 func Load(d *Dependencies) error {
+	// init db
+	db = d.Db
+
 	// auto migrate User table
-	if err := d.Db.AutoMigrate(&User{}); err != nil {
+	if err := db.AutoMigrate(&User{}); err != nil {
 		return err
 	}
 
-	// register endpoints
-	d.V1RouteGroup.GET("/user/:id", GetOneHandler)
-	d.V1RouteGroup.POST("/user", CreateHandler)
+	// init user repository to entire User package
+	repository = &UserRepository{}
+
+	// init user service to entire User package
+	service = &UserService{}
+
+	// register v1 routes
+	registerV1Routes(d.V1RouteGroup)
 
 	return nil
+}
+
+func registerV1Routes(v1 *gin.RouterGroup) {
+	// v1.GET("/user/:id", GetOneHandler)
+	v1.POST("/user", CreateHandler)
 }

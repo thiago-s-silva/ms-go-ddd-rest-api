@@ -18,7 +18,7 @@ func Load(d *Dependencies) error {
 
 	// Load User Package
 	err := user.Load(&user.Dependencies{
-		Config:       &d.Config.ServerConfig,
+		Config:       d.Config,
 		V1RouteGroup: v1,
 		Db:           d.Db,
 	})
