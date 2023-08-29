@@ -11,11 +11,11 @@ type Dependencies struct {
 	ServerConfig *config.ServerConfig
 }
 
-func (d *Dependencies) Load() {
+func Load(d *Dependencies) {
 	v1 := d.Server.Group(d.ServerConfig.API_V1_BASE_PATH)
 
 	// Load User Package
-	user.Load(&user.UserDependencies{
+	user.Load(&user.Dependencies{
 		Config:       d.ServerConfig,
 		V1RouteGroup: v1,
 	})

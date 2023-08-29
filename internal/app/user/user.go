@@ -5,12 +5,12 @@ import (
 	"github.com/thiago-s-silva/ms-go-task-management-api/config"
 )
 
-type UserDependencies struct {
+type Dependencies struct {
 	Config       *config.ServerConfig
 	V1RouteGroup *gin.RouterGroup
 }
 
-func Load(d *UserDependencies) {
+func Load(d *Dependencies) {
 	d.V1RouteGroup.GET("/user/:id", GetOneHandler)
 	d.V1RouteGroup.POST("/user", CreateHandler)
 }
