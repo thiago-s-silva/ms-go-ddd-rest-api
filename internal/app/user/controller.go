@@ -5,6 +5,22 @@ import (
 	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
 )
 
+func DeleteHandler(ctx *gin.Context) {
+	// init a new logger instance
+	logger := pkg.NewLogger("Delete user by id")
+
+	// bind URL Params based on struct
+	var urlParams UrlParams
+	if err := bindUriParams(ctx, &urlParams); err != nil {
+		logger.Error(err)
+		pkg.OnBadRequest(ctx, err.Error())
+		return
+	}
+
+	// call User Service delete method
+	service.Delete(ctx, logger, urlParams.ID)
+}
+
 func GetOneHandler(ctx *gin.Context) {
 	// init a new logger instance
 	logger := pkg.NewLogger("Get user by id")

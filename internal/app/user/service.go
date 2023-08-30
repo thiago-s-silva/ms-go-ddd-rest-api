@@ -6,9 +6,10 @@ import (
 )
 
 type IUserService interface {
-	Create(payload *UserRequestPayload)
-	GetAll()
-	GetOne(id int)
+	Create(ctx *gin.Context, log *pkg.Logger, payload *UserRequestPayload)
+	GetAll(ctx *gin.Context, log *pkg.Logger)
+	GetOne(ctx *gin.Context, log *pkg.Logger, id int)
+	Delete(ctx *gin.Context, log *pkg.Logger, id int)
 }
 
 type UserService struct{}
@@ -50,4 +51,21 @@ func (u *UserService) GetOne(ctx *gin.Context, log *pkg.Logger, id int) {
 	}
 
 	pkg.OnSuccessWithData(ctx, &user)
+}
+
+func (u *UserService) Delete(ctx *gin.Context, log *pkg.Logger, id int) {
+	_, err := repository.GetOneById(id)
+	if err != nil {
+		log.Debugf("failed when tried to get user by id %d: %s", id, err.Error())
+		pkg.OnNotFound(ctx, err.Error())
+		return
+	}
+
+	if err = repository.DeleteByID(id); err != nil {
+		log.Errorf("failed when tried to delete user by id %d: %s", id, err.Error())
+		pkg.OnError(ctx, err.Error())
+		return
+	}
+
+	pkg.OnSuccess(ctx, "Successfuly deleted user!")
 }

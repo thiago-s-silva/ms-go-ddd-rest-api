@@ -4,6 +4,7 @@ type IUserRepository interface {
 	Create(u *User) error
 	GetAll() (*[]User, error)
 	GetOneById(id int) (*User, error)
+	DeleteByID(id int) error
 }
 
 type UserRepository struct{}
@@ -35,4 +36,11 @@ func (r *UserRepository) GetOneById(id int) (*User, error) {
 	}
 
 	return &user, nil
+}
+
+func (r *UserRepository) DeleteByID(id int) error {
+	if err := db.Delete(&User{}, id).Error; err != nil {
+		return err
+	}
+	return nil
 }

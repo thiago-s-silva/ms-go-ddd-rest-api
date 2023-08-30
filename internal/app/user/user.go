@@ -48,4 +48,7 @@ func registerV1Routes(v1 *gin.RouterGroup) {
 
 	// get one user by id
 	v1.GET("/user/:id", GetOneHandler)
+
+	// delete user by id
+	v1.DELETE("/user/:id", DeleteHandler)
 }
