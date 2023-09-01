@@ -64,6 +64,33 @@ func CreateHandler(ctx *gin.Context) {
 	service.Create(ctx, logger, &payload)
 }
 
+func UpdateHandler(ctx *gin.Context) {
+	// init a new logger instance
+	logger := pkg.NewLogger("Update user by id")
+
+	// bind URL Params based on struct
+	var urlParams UrlParams
+	if err := bindUriParams(ctx, &urlParams); err != nil {
+		logger.Error(err)
+		pkg.OnBadRequest(ctx, err.Error())
+		return
+	}
+
+	// bind request json payload based on struct
+	var payload UserRequestPayload
+	bindPayload(ctx, &payload)
+
+	// validate payload based on dto
+	if err := payload.Validate(); err != nil {
+		logger.Error(err.Error())
+		pkg.OnBadRequest(ctx, err.Error())
+		return
+	}
+
+	// call User Service create method
+	service.Update(ctx, logger, &payload, urlParams.ID)
+}
+
 func bindUriParams(ctx *gin.Context, u *UrlParams) error {
 	// try to bind the Request URI
 	if err := ctx.ShouldBindUri(&u); err != nil {

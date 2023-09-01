@@ -51,4 +51,7 @@ func registerV1Routes(v1 *gin.RouterGroup) {
 
 	// delete user by id
 	v1.DELETE("/user/:id", DeleteHandler)
+
+	// update user by id
+	v1.PUT("/user/:id", UpdateHandler)
 }

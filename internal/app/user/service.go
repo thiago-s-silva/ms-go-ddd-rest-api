@@ -10,6 +10,7 @@ type IUserService interface {
 	GetAll(ctx *gin.Context, log *pkg.Logger)
 	GetOne(ctx *gin.Context, log *pkg.Logger, id int)
 	Delete(ctx *gin.Context, log *pkg.Logger, id int)
+	Update(ctx *gin.Context, log *pkg.Logger, payload *User, id int)
 }
 
 type UserService struct{}
@@ -68,4 +69,28 @@ func (u *UserService) Delete(ctx *gin.Context, log *pkg.Logger, id int) {
 	}
 
 	pkg.OnSuccess(ctx, "Successfuly deleted user!")
+}
+
+func (u *UserService) Update(ctx *gin.Context, log *pkg.Logger, p *UserRequestPayload, id int) {
+	_, err := repository.GetOneById(id)
+	if err != nil {
+		log.Debugf("failed when tried to get user by id %d: %s", id, err.Error())
+		pkg.OnNotFound(ctx, err.Error())
+		return
+	}
+
+	user := User{
+		ID:       uint(id),
+		Name:     p.Name,
+		Role:     p.Role,
+		Email:    p.Email,
+		Password: p.Password,
+	}
+
+	if err = repository.Update(&user); err != nil {
+		log.Errorf("failed when tried to update user by id %d: %s", id, err.Error())
+		pkg.OnError(ctx, err.Error())
+	}
+
+	pkg.OnSuccess(ctx, "successfuly updated user!!")
 }
