@@ -9,5 +9,14 @@ default: run
 run:
 	@go run cmd/main.go
 
+build:
+	@CGO_ENABLED=0 GOOS=linux go build -o /main
+
 up:
 	@docker-compose up -d
+
+down:
+	@docker-compose up -d
+
+clean-image:
+	@docker rmi ms-go-task-management-api-api

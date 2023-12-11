@@ -1,45 +1,22 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
-	"github.com/thiago-s-silva/ms-go-task-management-api/config"
-	"github.com/thiago-s-silva/ms-go-task-management-api/infra/db"
-	"github.com/thiago-s-silva/ms-go-task-management-api/internal/app"
-	"github.com/thiago-s-silva/ms-go-task-management-api/pkg"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+	"github.com/labstack/echo/v4"
+	"github.com/thiago-s-silva/ms-go-task-management-api/routes"
 )
 
 func main() {
-	// init Logger
-	logger := pkg.NewLogger("main.go")
-
-	// init Gin Gonic
-	server := gin.Default()
-
-	// init Config
-	cfg, err := config.Load()
+	err := godotenv.Load()
 	if err != nil {
-		logger.Errorf("error when tried to load Config Package: %v", err)
-		panic(err)
+		log.Fatal("Error loading .env file")
 	}
 
-	// init Database
-	db, err := db.Load(cfg)
-	if err != nil {
-		logger.Errorf("error when tried to load DB Package: %v", err)
-		panic(err)
-	}
+	e := echo.New()
+	routes.RegisterRoutes(e)
 
-	// init App
-	err = app.Load(&app.Dependencies{
-		Server: server,
-		Config: cfg,
-		Db:     db,
-	})
-	if err != nil {
-		logger.Errorf("error when tried to load App package: %v", err)
-		panic(err)
-	}
-
-	// initialize Server
-	server.Run(cfg.ServerConfig.SERVER_HOST)
+	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }
