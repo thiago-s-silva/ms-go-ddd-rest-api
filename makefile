@@ -16,7 +16,7 @@ up:
 	@docker-compose up -d
 
 down:
-	@docker-compose up -d
+	@docker-compose down
 
 clean-image:
 	@docker rmi ms-go-task-management-api-api

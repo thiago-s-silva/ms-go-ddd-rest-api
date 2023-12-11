@@ -6,6 +6,7 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
+	"github.com/thiago-s-silva/ms-go-task-management-api/infra/database"
 	"github.com/thiago-s-silva/ms-go-task-management-api/routes"
 )
 
@@ -15,6 +16,17 @@ func main() {
 		log.Fatal("Error loading .env file")
 	}
 
+	// init db
+	db, err := database.Connect()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if db != nil {
+		print("db ok")
+	}
+
+	// init api server
 	e := echo.New()
 	routes.RegisterRoutes(e)
 
